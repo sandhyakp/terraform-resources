@@ -1,0 +1,30 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+# Configure the AWS Provider
+provider "aws" {
+  region = "us-east-1"
+  access_key = "AKIA5I64UD26RWS7QTMG"
+  secret_key = "Pn9LRsRwKeiGK17kwDFCQfpBp00Kjpul2a4C1/kC"
+}
+
+resource "aws_s3_bucket" "example" {
+  bucket = "uploads3content-sandhyabucket"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+
+resource "aws_s3_object" "file" {
+  bucket = aws_s3_bucket.example.id
+  key    = "hi.txt"
+  source = "hi.txt"
+}
